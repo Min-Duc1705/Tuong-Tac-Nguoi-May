@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Trang Chủ</title>
+    <link rel="stylesheet" href="index.css" />
+    <style>
+      /* Popup và Tabs */
+      .popup-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.4);
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .popup-content {
+        background: #fff;
+        padding: 25px;
+        border-radius: 10px;
+        width: 800px;
+        max-width: 95%;
+        position: relative;
+      }
+
+      .close-btn {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        font-size: 22px;
+        cursor: pointer;
+      }
+
+      .tab-header {
+        display: flex;
+        border-bottom: 2px solid #e0e0e0;
+        margin-bottom: 15px;
+      }
+
+      .tab {
+        padding: 10px 20px;
+        cursor: pointer;
+        font-weight: bold;
+        color: #666;
+      }
+
+      .tab.active {
+        color: #007bff;
+        border-bottom: 2px solid #007bff;
+      }
+
+      .tab-content {
+        display: none;
+      }
+
+      .tab-content.active {
+        display: block;
+      }
+
+      .account-info-grid {
+        display: flex;
+        gap: 40px;
+      }
+
+      .left-panel {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .left-panel img.avatar-preview {
+        width: 140px;
+        height: 140px;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 2px solid #ccc;
+        margin-bottom: 15px;
+      }
+
+      .upload-avatar-btn {
+        background-color: #f2f2f2;
+        border: 1px solid #ccc;
+        padding: 8px 15px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+      }
+
+      .right-panel {
+        flex: 2;
+      }
+
+      .right-panel form {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .right-panel label {
+        margin: 10px 0 5px;
+        font-weight: bold;
+      }
+
+      .right-panel input {
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+
+      .right-panel button {
+        margin-top: 20px;
+        padding: 10px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Header -->
+    <header class="main-header">
+      <div class="logo">
+        <img src="./image/avatar/logoTlu.png" alt="Logo" />
+      </div>
+      <input
+        type="text"
+        placeholder="🔍 Bạn tìm gì hôm nay"
+        class="search-bar"
+      />
+      <div class="auth-cart">
+        <span class="cart-icon">🛒</span>
+        <div class="user-menu">
+          <div class="user-info" >
+            <img
+              src="./image/avatar/admin.png"
+              alt="User Icon"
+              class="user-icon"
+            />
+            <span class="user-name">I'm Admin1</span>
+          </div>
+          <div class="dropdown">
+            <a href="#">Trang quản trị</a>
+            <a href="#" onclick="openPopup()">Thông tin cá nhân</a>
+            <a href="#">Lịch sử mua hàng</a>
+            <a href="./index.html">Đăng xuất</a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Category Tabs -->
+    <nav class="category-tabs">
+      <span class="active">Tất cả</span>
+      <span>Truyện tranh</span>
+      <span>Tiểu thuyết</span>
+      <span>Văn học</span>
+      <span>Kinh tế</span>
+      <span>Giáo trình</span>
+    </nav>
+    <p style="margin: 0; margin-top: 10px">
+      <a
+        href="index.html"
+        style="margin-left: 15px; text-decoration: none; color: #000"
+        >🏠 Trang Chủ</a
+      >
+    </p>
+
+    <!-- Main Content -->
+    <div class="container">
+      <!-- Sidebar -->
+      <aside class="filter-sidebar">
+        <div class="filter-header">
+          <span>🔍 <strong>Bộ lọc tìm kiếm</strong></span>
+          <span class="refresh-icon">🔄</span>
+        </div>
+        <hr />
+        <p><strong>Danh mục sản phẩm</strong></p>
+        <label><input type="checkbox" /> Arts</label><br />
+        <label><input type="checkbox" /> Business</label><br />
+        <label><input type="checkbox" /> Comics</label><br />
+        <label><input type="checkbox" /> Cooking</label><br />
+        <label><input type="checkbox" /> Entertainment</label><br />
+        <label><input type="checkbox" /> History</label><br />
+        <label><input type="checkbox" /> Music</label><br />
+        <label><input type="checkbox" /> Sports</label><br />
+        <label><input type="checkbox" /> Teen</label><br />
+        <label><input type="checkbox" /> Travel</label><br />
+        <hr />
+        <p><strong>Khoảng giá</strong></p>
+        <div class="price-range">
+          <input type="number" placeholder="đ TỪ" />
+          <span>-</span>
+          <input type="number" placeholder="đ ĐẾN" />
+        </div>
+        <button type="button" class="apply-btn">Áp dụng</button>
+        <hr />
+        <p><strong>Đánh giá</strong></p>
+        <div class="ratings">
+          <div>⭐⭐⭐⭐⭐ trở lên</div>
+          <div>⭐⭐⭐⭐☆ trở lên</div>
+          <div>⭐⭐⭐☆☆ trở lên</div>
+          <div>⭐⭐☆☆☆ trở lên</div>
+        </div>
+      </aside>
+
+      <!-- Product Grid -->
+      <main class="product-area">
+        <div class="sort-tabs">
+          <span class="active">Phổ biến</span>
+          <span>Hàng Mới</span>
+          <span>Giá Thấp Đến Cao</span>
+          <span>Giá Cao Đến Thấp</span>
+        </div>
+
+        <div class="product-grid">
+          <!-- Một vài sản phẩm ví dụ -->
+          <a
+            href="./ChiTietSach.html"
+            style="text-decoration: none; color: #000"
+          >
+            <div class="product-card">
+              <img
+                src="./image/book/sucmanhngontu.jpg"
+                alt="Sức mạnh của ngôn từ"
+              />
+              <div class="content">
+                <h4 class="title">Sức Mạnh Của Ngôn Từ</h4>
+                <div class="price">50.000 đ</div>
+                <div class="spacer"></div>
+                <div class="sold">⭐⭐⭐⭐⭐ <span>Đã bán 887</span></div>
+              </div>
+            </div>
+          </a>
+
+          <!-- Thêm các thẻ product-card khác như bạn đã có -->
+          <!-- ... -->
+           <div class="product-card">
+            <img
+              src="./image/book/15-afa213ab31cefd06d49b977a2f4ab594.jpg"
+              alt="Làm Dâu Nhà Sói"
+            />
+            <div class="content">
+              <h4 class="title">
+                Truyện Tranh Đam Mỹ - Làm Dâu Nhà Sói - Hana Inu
+              </h4>
+              <div class="price">52.000 đ</div>
+              <div class="spacer"></div>
+              <div class="sold">⭐⭐⭐⭐⭐ <span>Đã bán 34</span></div>
+            </div>
+          </div>
+
+          <div class="product-card">
+            <img src="./image/book/Diary.jpg" alt="Wimpy Kid" />
+            <div class="content">
+              <h4 class="title">Diary Of A Wimpy Kid 09: The Long Haul</h4>
+              <div class="price">111.123 đ</div>
+              <div class="spacer"></div>
+              <div class="sold">⭐⭐⭐⭐⭐ <span>Đã bán 34</span></div>
+            </div>
+          </div>
+
+          <div class="product-card">
+            <img src="./image/book/tuduynguoc.jpg" alt="Originals" />
+            <div class="content">
+              <h4 class="title">Sách Tư Duy Ngược Dịch Chuyển Thế Giới</h4>
+              <div class="price">127.000 đ</div>
+              <div class="spacer"></div>
+              <div class="sold">⭐⭐⭐⭐⭐ <span>Đã bán 32</span></div>
+            </div>
+          </div>
+
+          <div class="product-card">
+            <img src="./image/book/salt.jpg" alt="Salt Fat Acid Heat" />
+            <div class="content">
+              <h4 class="title">
+                Salt, Fat, Acid, Heat: Mastering the Elements of Good Cooking
+              </h4>
+              <div class="price">649.000 đ</div>
+              <div class="spacer"></div>
+              <div class="sold">⭐⭐⭐⭐⭐ <span>Đã bán 30</span></div>
+            </div>
+          </div>
+
+          <div class="product-card">
+            <img src="./image/book/dulichmy.jpg" alt="Cẩm Nang Mỹ" />
+            <div class="content">
+              <h4 class="title">Cẩm Nang Du Lịch - Mỹ</h4>
+              <div class="price">292.000 đ</div>
+              <div class="spacer"></div>
+              <div class="sold">⭐⭐⭐⭐⭐<span>Đã bán 34</span></div>
+            </div>
+          </div>
+
+          <div class="product-card">
+            <img src="./image/book/tuhocnhacly.jpg" alt="Tự Học Nhạc Lý" />
+            <div class="content">
+              <h4 class="title">Tự Học Nhạc Lý Cơ Bản</h4>
+              <div class="price">60.000 đ</div>
+              <div class="spacer"></div>
+              <div class="sold">⭐⭐⭐⭐⭐<span>Đã bán 34</span></div>
+            </div>
+          </div>
+
+          <div class="product-card">
+            <img src="./image/book/daiviet.jpg" alt="Đại Việt Sử Ký Toàn Thư" />
+            <div class="content">
+              <h4 class="title">Đại Việt Sử Ký Toàn Thư Trọn Bộ</h4>
+              <div class="price">171.000 đ</div>
+              <div class="spacer"></div>
+              <div class="sold">⭐⭐⭐⭐⭐<span>Đã bán 34</span></div>
+            </div>
+          </div>
+
+          <div class="product-card">
+            <img src="./image/book/hieu.jpg" alt="How the body works" />
+            <div class="content">
+              <h4 class="title">How The Body Works - Hiểu Hết Về Cơ Thể</h4>
+              <div class="price">250.000 đ</div>
+              <div class="spacer"></div>
+              <div class="sold">⭐⭐⭐⭐⭐<span>Đã bán 34</span></div>
+            </div>
+          </div>
+
+          <div class="product-card">
+            <img
+              src="./image/book/tuduyvetienbac.jpg"
+              alt="Tư duy về tiền bạc"
+            />
+            <div class="content">
+              <h4 class="title">
+                Tư Duy Về Tiền Bạc - Lựa Chọn Tài Chính Sáng Suốt
+              </h4>
+              <div class="price">70.000 đ</div>
+              <div class="spacer"></div>
+              <div class="sold">⭐⭐⭐⭐⭐<span>Đã bán 34</span></div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- Popup -->
+    <div id="account-popup" class="popup-overlay" style="display: none">
+      <div class="popup-content">
+        <span class="close-btn" onclick="closePopup()">×</span>
+        <h2>Quản lý tài khoản</h2>
+
+        <div class="tab-header">
+          <span class="tab active" onclick="switchTab('info')"
+            >Cập nhật thông tin</span
+          >
+          <span class="tab" onclick="switchTab('password')">Đổi mật khẩu</span>
+        </div>
+
+        <div class="tab-content" id="tab-info" style="display: block">
+          <div class="account-info-grid">
+            <!-- Cột trái: Avatar -->
+            <div class="left-panel">
+              <img
+                src="./image/avatar/admin.png"
+                alt="avatar"
+                class="avatar-preview"
+              />
+              <label class="upload-avatar-btn">
+                <input type="file" style="display: none" />
+                ⬆️ Upload Avatar
+              </label>
+            </div>
+
+            <!-- Cột phải: Form thông tin -->
+            <div class="right-panel">
+              <form>
+                <label>Email</label>
+                <input type="email" value="admin@gmail.com" disabled />
+
+                <label><span style="color: red">*</span> Tên hiển thị</label>
+                <input type="text" value="I'm Admin1" />
+
+                <label><span style="color: red">*</span> Số điện thoại</label>
+                <input type="text" value="123456789" />
+
+                <div class="form-buttons" style="margin-left: auto;">
+                  <button type="button" class="btn-update" style="margin-right: 10px;">Cập nhật</button>
+                  <button
+                    type="button"
+                    class="btn-secondary"
+                    onclick="closePopup()"
+                    style="background-color: #6C757D;"
+                  >
+                    Thoát
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-content" id="tab-password">
+          <form>
+            <label>Mật khẩu hiện tại</label>
+            <input type="password" />
+            <label>Mật khẩu mới</label>
+            <input type="password" />
+            <label>Xác nhận mật khẩu</label>
+            <input type="password" />
+            <button type="button">Đổi mật khẩu</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+      <div class="footer-container">
+        <div class="footer-section">
+          <h4>Về chúng tôi</h4>
+          <p>
+            📘 Nhóm 5 là nơi chia sẻ sách hay, kiến thức và cảm hứng đọc sách
+            cho mọi người.
+          </p>
+        </div>
+        <div class="footer-section">
+          <h4>Liên hệ</h4>
+          <p>📍 Địa chỉ: 123 Đường Sách, TP. Hồ Chí Minh</p>
+          <p>📞 SĐT: 0123 456 789</p>
+          <p>✉️ Email: support@nhom5.vn</p>
+        </div>
+        <div class="footer-section">
+          <h4>Theo dõi chúng tôi</h4>
+          <p>🌐 Facebook | Instagram | Twitter</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        © 2025 Nhóm 5. Tất cả các quyền được bảo lưu.
+      </div>
+    </footer>
+
+    <!-- Script -->
+    <script>
+      function openPopup() {
+        document.getElementById("account-popup").style.display = "flex";
+      }
+
+      function closePopup() {
+        document.getElementById("account-popup").style.display = "none";
+      }
+
+      function switchTab(tab) {
+        document.getElementById("tab-info").style.display =
+          tab === "info" ? "block" : "none";
+        document.getElementById("tab-password").style.display =
+          tab === "password" ? "block" : "none";
+
+        document
+          .querySelectorAll(".tab")
+          .forEach((el) => el.classList.remove("active"));
+        document
+          .querySelector(`.tab[onclick="switchTab('${tab}')"]`)
+          .classList.add("active");
+      }
+    </script>
+  </body>
+</html>

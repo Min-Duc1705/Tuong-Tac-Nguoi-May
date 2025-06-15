@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Trang Chủ</title>
+    <link rel="stylesheet" href="index.css" />
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="main-header">
+      <div class="logo">
+        <img src="./image/avatar/logoTlu.png" alt="Logo" />
+        <!-- <span>📘 Nhóm 5</span> -->
+      </div>
+
+      <input
+        type="text"
+        placeholder="🔍 Bạn tìm gì hôm nay"
+        class="search-bar"
+      />
+      <div class="auth-cart">
+        <span class="cart-icon">🛒</span>
+        <button class="login-btn">
+          <a href="login.html" style="text-decoration: none; color: white"
+            >Đăng Nhập</a
+          >
+        </button>
+        <button class="signup-btn">Đăng Ký</button>
+      </div>
+    </header>
+    
+    <!-- Category Tabs -->
+    <nav class="category-tabs">
+      <span class="active">Tất cả</span>
+      <span>Truyện tranh</span>
+      <span>Tiểu thuyết</span>
+      <span>Văn học</span>
+      <span>Kinh tế</span>
+      <span>Giáo trình</span>
+    </nav>
+    <p style="margin: 0; margin-top: 10px;"><a href="index.html"style="margin-left: 15px; text-decoration: none; color: #000;">🏠 Trang Chủ</a> <span></span></p>
+    <!-- Main Content -->
+    <div class="container">
+      <!-- Filter Sidebar -->
+      <aside class="filter-sidebar">
+        <div class="filter-header">
+          <span>🔍 <strong>Bộ lọc tìm kiếm</strong></span>
+          <span class="refresh-icon">🔄</span>
+        </div>
+        <hr />
+
+        <p><strong>Danh mục sản phẩm</strong></p>
+        <label><input type="checkbox" /> Arts</label><br />
+        <label><input type="checkbox" /> Business</label><br />
+        <label><input type="checkbox" /> Comics</label><br />
+        <label><input type="checkbox" /> Cooking</label><br />
+        <label><input type="checkbox" /> Entertainment</label><br />
+        <label><input type="checkbox" /> History</label><br />
+        <label><input type="checkbox" /> Music</label><br />
+        <label><input type="checkbox" /> Sports</label><br />
+        <label><input type="checkbox" /> Teen</label><br />
+        <label><input type="checkbox" /> Travel</label><br />
+
+        <hr />
+        <p><strong>Khoảng giá</strong></p>
+        <div class="price-range">
+          <input type="number" placeholder="đ TỪ" />
+          <span>-</span>
+          <input type="number" placeholder="đ ĐẾN" />
+        </div>
+        <button type="button" class="apply-btn">Áp dụng</button>
+        <hr />
+        <p><strong>Đánh giá</strong></p>
+        <div class="ratings">
+          <div>⭐⭐⭐⭐⭐ trở lên</div>
+          <div>⭐⭐⭐⭐☆ trở lên</div>
+          <div>⭐⭐⭐☆☆ trở lên</div>
+          <div>⭐⭐☆☆☆ trở lên</div>
+        </div>
+      </aside>
+
+      <!-- Product Grid -->
+      <main class="product-area">
+        <div class="sort-tabs">
+          <span class="active">Phổ biến</span>
+          <span>Hàng Mới</span>
+          <span>Giá Thấp Đến Cao</span>
+          <span>Giá Cao Đến Thấp</span>
+        </div>
+
+        <!-- Product Grid -->
+        <a href="./ChiTietSach.html" style="text-decoration: none;color: #000;">
+            <div class="product-grid">
+          <!-- Product Cards -->
+          <div class="product-card">
+            <img
+              src="./image/book/sucmanhngontu.jpg"
+              alt="Sức mạnh của ngôn từ"
+            />
+            <div class="content">
+              <h4 class="title">Sức Mạnh Của Ngôn Từ</h4>
+              <div class="price">50.000 đ</div>
+              <div class="spacer"></div>
+              <div class="sold">⭐⭐⭐⭐⭐ <span>Đã bán 887</span></div>
+            </div>
+          </div>
+        </a>
+
+          <div class="product-card">
+            <img
+              src="./image/book/15-afa213ab31cefd06d49b977a2f4ab594.jpg"
+              alt="Làm Dâu Nhà Sói"
+            />
+            <div class="content">
+              <h4 class="title">
+                Truyện Tranh Đam Mỹ - Làm Dâu Nhà Sói - Hana Inu
+              </h4>
+              <div class="price">52.000 đ</div>
+              <div class="spacer"></div>
+              <div class="sold">⭐⭐⭐⭐⭐ <span>Đã bán 34</span></div>
+            </div>
+          </div>
+
+          <div class="product-card">
+            <img src="./image/book/Diary.jpg" alt="Wimpy Kid" />
+            <div class="content">
+              <h4 class="title">Diary Of A Wimpy Kid 09: The Long Haul</h4>
+              <div class="price">111.123 đ</div>
+              <div class="spacer"></div>
+              <div class="sold">⭐⭐⭐⭐⭐ <span>Đã bán 34</span></div>
+            </div>
+          </div>
+
+          <div class="product-card">
+            <img src="./image/book/tuduynguoc.jpg" alt="Originals" />
+            <div class="content">
+              <h4 class="title">Sách Tư Duy Ngược Dịch Chuyển Thế Giới</h4>
+              <div class="price">127.000 đ</div>
+              <div class="spacer"></div>
+              <div class="sold">⭐⭐⭐⭐⭐ <span>Đã bán 32</span></div>
+            </div>
+          </div>
+
+          <div class="product-card">
+            <img src="./image/book/salt.jpg" alt="Salt Fat Acid Heat" />
+            <div class="content">
+              <h4 class="title">
+                Salt, Fat, Acid, Heat: Mastering the Elements of Good Cooking
+              </h4>
+              <div class="price">649.000 đ</div>
+              <div class="spacer"></div>
+              <div class="sold">⭐⭐⭐⭐⭐ <span>Đã bán 30</span></div>
+            </div>
+          </div>
+
+          <div class="product-card">
+            <img src="./image/book/dulichmy.jpg" alt="Cẩm Nang Mỹ" />
+            <div class="content">
+              <h4 class="title">Cẩm Nang Du Lịch - Mỹ</h4>
+              <div class="price">292.000 đ</div>
+              <div class="spacer"></div>
+              <div class="sold">⭐⭐⭐⭐⭐<span>Đã bán 34</span></div>
+            </div>
+          </div>
+
+          <div class="product-card">
+            <img src="./image/book/tuhocnhacly.jpg" alt="Tự Học Nhạc Lý" />
+            <div class="content">
+              <h4 class="title">Tự Học Nhạc Lý Cơ Bản</h4>
+              <div class="price">60.000 đ</div>
+              <div class="spacer"></div>
+              <div class="sold">⭐⭐⭐⭐⭐<span>Đã bán 34</span></div>
+            </div>
+          </div>
+
+          <div class="product-card">
+            <img src="./image/book/daiviet.jpg" alt="Đại Việt Sử Ký Toàn Thư" />
+            <div class="content">
+              <h4 class="title">Đại Việt Sử Ký Toàn Thư Trọn Bộ</h4>
+              <div class="price">171.000 đ</div>
+              <div class="spacer"></div>
+              <div class="sold">⭐⭐⭐⭐⭐<span>Đã bán 34</span></div>
+            </div>
+          </div>
+
+          <div class="product-card">
+            <img src="./image/book/hieu.jpg" alt="How the body works" />
+            <div class="content">
+              <h4 class="title">How The Body Works - Hiểu Hết Về Cơ Thể</h4>
+              <div class="price">250.000 đ</div>
+              <div class="spacer"></div>
+              <div class="sold">⭐⭐⭐⭐⭐<span>Đã bán 34</span></div>
+            </div>
+          </div>
+
+          <div class="product-card">
+            <img
+              src="./image/book/tuduyvetienbac.jpg"
+              alt="Tư duy về tiền bạc"
+            />
+            <div class="content">
+              <h4 class="title">
+                Tư Duy Về Tiền Bạc - Lựa Chọn Tài Chính Sáng Suốt
+              </h4>
+              <div class="price">70.000 đ</div>
+              <div class="spacer"></div>
+              <div class="sold">⭐⭐⭐⭐⭐<span>Đã bán 34</span></div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </body>
+  <!-- Footer -->
+  <footer class="main-footer">
+    <div class="footer-container">
+      <div class="footer-section">
+        <h4>Về chúng tôi</h4>
+        <p>
+          📘 Nhóm 5 là nơi chia sẻ sách hay, kiến thức và cảm hứng đọc sách cho
+          mọi người.
+        </p>
+      </div>
+      <div class="footer-section">
+        <h4>Liên hệ</h4>
+        <p>📍 Địa chỉ: 123 Đường Sách, TP. Hồ Chí Minh</p>
+        <p>📞 SĐT: 0123 456 789</p>
+        <p>✉️ Email: support@nhom5.vn</p>
+      </div>
+      <div class="footer-section">
+        <h4>Theo dõi chúng tôi</h4>
+        <p>🌐 Facebook | Instagram | Twitter</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      © 2025 Nhóm 5. Tất cả các quyền được bảo lưu.
+    </div>
+  </footer>
+</html>

@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Chi Tiết Sách</title>
+    <link rel="stylesheet" href="ChiTietSach.css" />
+    <style>
+      /* Popup và Tabs */
+      .popup-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.4);
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .popup-content {
+        background: #fff;
+        padding: 25px;
+        border-radius: 10px;
+        width: 800px;
+        max-width: 95%;
+        position: relative;
+      }
+
+      .close-btn {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        font-size: 22px;
+        cursor: pointer;
+      }
+
+      .tab-header {
+        display: flex;
+        border-bottom: 2px solid #e0e0e0;
+        margin-bottom: 15px;
+      }
+
+      .tab {
+        padding: 10px 20px;
+        cursor: pointer;
+        font-weight: bold;
+        color: #666;
+      }
+
+      .tab.active {
+        color: #007bff;
+        border-bottom: 2px solid #007bff;
+      }
+
+      .tab-content {
+        display: none;
+      }
+
+      .tab-content.active {
+        display: block;
+      }
+
+      .account-info-grid {
+        display: flex;
+        gap: 40px;
+      }
+
+      .left-panel {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .left-panel img.avatar-preview {
+        width: 140px;
+        height: 140px;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 2px solid #ccc;
+        margin-bottom: 15px;
+      }
+
+      .upload-avatar-btn {
+        background-color: #f2f2f2;
+        border: 1px solid #ccc;
+        padding: 8px 15px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+      }
+
+      .right-panel {
+        flex: 2;
+      }
+
+      .right-panel form {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .right-panel label {
+        margin: 10px 0 5px;
+        font-weight: bold;
+      }
+
+      .right-panel input {
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+
+      .right-panel button {
+        margin-top: 20px;
+        padding: 10px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="main-header">
+      <div class="logo">
+        <img src="./image/avatar/logoTlu.png" alt="Logo" />
+      </div>
+
+      <input
+        type="text"
+        placeholder="🔍 Bạn tìm gì hôm nay"
+        class="search-bar"
+      />
+
+      <div class="auth-cart">
+        <span class="cart-icon">🛒</span>
+        <div class="login-btn" style="background-color: white;">
+          <div class="user-menu">
+            <div class="user-info">
+              <img src="./image/avatar/admin.png" alt="User Icon" class="user-icon" />
+              <span class="user-name">I'm Admin1</span>
+            </div>
+            <div class="dropdown">
+              <a href="#">Trang quản trị</a>
+              <a href="#" onclick="openPopup()">Thông tin cá nhân</a>
+              <a href="#">Lịch sử mua hàng</a>
+              <a href="./index.html">Đăng xuất</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <p style="margin-left: 100px;">
+      <a href="index.html">🏠 Trang Chủ</a> / <span>Chi Tiết Sách</span>
+    </p>
+
+    <!-- Nội dung chính -->
+    <main class="main-content">
+      <div class="book-detail-container">
+        <div class="book-image-section">
+          <img
+            src="./image/book/sucmanhngontu.jpg"
+            alt="Sức Mạnh Của Ngôn Từ"
+            class="main-book-image"
+          />
+          <div class="thumbnail-list">
+            <img src="./image/book/sucmanhngontu.jpg" class="thumbnail active" />
+            <img src="./image/book/sucmanhngontu.jpg" class="thumbnail" />
+          </div>
+        </div>
+
+        <div class="book-info-section">
+          <h2>Sức Mạnh Của Ngôn Từ</h2>
+          <p class="author">Tác giả: <a href="#">Don Gabor</a></p>
+          <p class="rating">⭐ ⭐ ⭐ ⭐ ⭐ Đã bán 887</p>
+          <p class="price">50.000 ₫</p>
+          <p class="shipping">Vận Chuyển: <span>Miễn phí vận chuyển</span></p>
+
+          <div class="quantity-section">
+            <label>Số Lượng:</label>
+            <button class="qty-btn" type="button">-</button>
+            <input type="text" value="1" class="quantity-input" />
+            <button class="qty-btn" type="button">+</button>
+          </div>
+
+          <div class="action-buttons">
+            <button class="buy-now">
+              <a href="DatHang.html" style="text-decoration: none; color: white;">Mua ngay</a>
+            </button>
+            <button class="add-to-cart" type="button">🛒 Thêm vào giỏ hàng</button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Popup tài khoản -->
+    <div id="account-popup" class="popup-overlay" style="display: none;">
+      <div class="popup-content">
+        <span class="close-btn" onclick="closePopup()">×</span>
+        <h2>Quản lý tài khoản</h2>
+
+        <div class="tab-header">
+          <span class="tab active" onclick="switchTab('info')">Cập nhật thông tin</span>
+          <span class="tab" onclick="switchTab('password')">Đổi mật khẩu</span>
+        </div>
+
+        <div class="tab-content" id="tab-info" style="display: block">
+          <div class="account-info-grid">
+            <div class="left-panel">
+              <img src="./image/avatar/admin.png" alt="avatar" class="avatar-preview" />
+              <label class="upload-avatar-btn">
+                <input type="file" name="avatar" style="display: none;" />
+                ⬆️ Upload Avatar
+              </label>
+            </div>
+
+            <div class="right-panel">
+              <form>
+                <label>Email</label>
+                <input type="email" value="admin@gmail.com" disabled />
+
+                <label><span style="color: red">*</span> Tên hiển thị</label>
+                <input type="text" value="I'm Admin1" />
+
+                <label><span style="color: red">*</span> Số điện thoại</label>
+                <input type="text" value="123456789" />
+
+                <div class="form-buttons" style="margin-left: auto;">
+                  <button type="button" class="btn-update" style="margin-right: 10px;">Cập nhật</button>
+                  <button
+                    type="button"
+                    class="btn-secondary"
+                    onclick="closePopup()"
+                    style="background-color: #6C757D;"
+                  >
+                    Thoát
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-content" id="tab-password" style="display: none;">
+          <form>
+            <label>Mật khẩu hiện tại</label>
+            <input type="password" />
+
+            <label>Mật khẩu mới</label>
+            <input type="password" />
+
+            <label>Xác nhận mật khẩu</label>
+            <input type="password" />
+
+            <button type="button" class="btn-update">Đổi mật khẩu</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+      <div class="footer-container">
+        <div class="footer-section">
+          <h4>Về chúng tôi</h4>
+          <p>📘 Nhóm 5 là nơi chia sẻ sách hay, kiến thức và cảm hứng đọc sách cho mọi người.</p>
+        </div>
+        <div class="footer-section">
+          <h4>Liên hệ</h4>
+          <p>📍 Địa chỉ: 123 Đường Sách, TP. Hồ Chí Minh</p>
+          <p>📞 SĐT: 0123 456 789</p>
+          <p>✉️ Email: support@nhom5.vn</p>
+        </div>
+        <div class="footer-section">
+          <h4>Theo dõi chúng tôi</h4>
+          <p>🌐 Facebook | Instagram | Twitter</p>
+        </div>
+      </div>
+      <div class="footer-bottom">© 2025 Nhóm 5. Tất cả các quyền được bảo lưu.</div>
+    </footer>
+
+    <!-- Script -->
+    <script>
+      function openPopup() {
+        document.getElementById("account-popup").style.display = "flex";
+      }
+
+      function closePopup() {
+        document.getElementById("account-popup").style.display = "none";
+      }
+
+      function switchTab(tab) {
+        document.getElementById("tab-info").style.display = tab === "info" ? "block" : "none";
+        document.getElementById("tab-password").style.display = tab === "password" ? "block" : "none";
+
+        document.querySelectorAll(".tab").forEach((el) => el.classList.remove("active"));
+        document.querySelector(`.tab[onclick="switchTab('${tab}')"]`).classList.add("active");
+      }
+    </script>
+  </body>
+</html>

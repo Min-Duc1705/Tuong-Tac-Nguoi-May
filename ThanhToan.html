@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Thanh Toán</title>
+    <link rel="stylesheet" href="ThanhToan.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .main-content {
+        flex: 1 0 auto;
+      }
+
+      .main-footer {
+        background-color: #f8f9fa;
+        padding: 20px 0;
+        margin-top: auto;
+      }
+
+      .footer-container {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+      }
+
+      .footer-section h4 {
+        font-weight: bold;
+      }
+
+      .footer-bottom {
+        text-align: center;
+        margin-top: 10px;
+        font-size: 14px;
+        color: #777;
+      }
+
+      .step-indicator .step-circle {
+        width: 30px;
+        height: 30px;
+        font-size: 14px;
+        font-weight: bold;
+      }
+
+      .step-indicator hr {
+        height: 2px;
+      }
+
+      .main-header {
+        background-color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 40px;
+        border-bottom: 1px solid #dee2e6;
+      }
+
+      .logo img {
+        height: 50px;
+      }
+
+      .search-bar {
+        width: 300px;
+        padding: 6px 10px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+      }
+
+      .auth-cart {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .user-menu {
+        position: relative;
+      }
+
+      .user-info {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        cursor: pointer;
+      }
+
+      .user-icon {
+        width: 30px;
+        border-radius: 50%;
+      }
+
+      .user-menu .dropdown {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background-color: white;
+        border: 1px solid #ccc;
+        padding: 10px;
+        display: none;
+        flex-direction: column;
+        z-index: 1000;
+      }
+
+      .user-menu:hover .dropdown {
+        display: flex;
+      }
+
+      .category-tabs {
+        display: flex;
+        gap: 15px;
+        padding: 10px 40px;
+        background-color: #f1f1f1;
+        font-weight: 500;
+      }
+
+      .category-tabs span.active {
+        color: black;
+      }
+      .card-shadow {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        transition: box-shadow 0.3s ease-in-out;
+        border-radius: 8px;
+      }
+
+      /* Alert styles */
+      .payment-alert {
+        display: none !important;
+        position: fixed;
+        top: 80px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 1000;
+        padding: 10px 20px;
+        background-color: #d1ecf1;
+        color: #0c5460;
+        border: 1px solid #bee5eb;
+        border-radius: 4px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .payment-alert.show {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* Banking Modal */
+      .banking-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1001;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .banking-modal.show {
+        display: flex !important;
+      }
+
+      .modal-content {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        max-width: 600px;
+        width: 90%;
+        max-height: 80vh;
+        overflow: hidden;
+        animation: modalSlideIn 0.3s ease-out;
+      }
+
+      @keyframes modalSlideIn {
+        from {
+          opacity: 0;
+          transform: translateY(-50px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .modal-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 20px;
+        text-align: center;
+        font-size: 20px;
+        font-weight: bold;
+      }
+
+      .modal-body {
+        display: flex;
+        padding: 30px;
+        gap: 30px;
+      }
+
+      .qr-section {
+        flex: 1;
+        text-align: center;
+        padding: 20px;
+        background: #f8f9fa;
+        border-radius: 8px;
+        border: 2px dashed #dee2e6;
+      }
+
+      .qr-placeholder {
+        width: 200px;
+        height: 200px;
+        background: #e9ecef;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 48px;
+        color: #6c757d;
+        margin: 0 auto 15px;
+      }
+
+      .qr-text {
+        font-size: 14px;
+        color: #6c757d;
+        font-weight: 500;
+      }
+
+      .form-section {
+        flex: 1;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      .form-label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #495057;
+      }
+
+      .form-control {
+        width: 100%;
+        padding: 12px;
+        border: 2px solid #e9ecef;
+        border-radius: 8px;
+        font-size: 14px;
+        transition: border-color 0.3s ease;
+      }
+
+      .form-control:focus {
+        outline: none;
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+      }
+
+      .form-select {
+        width: 100%;
+        padding: 12px;
+        border: 2px solid #e9ecef;
+        border-radius: 8px;
+        font-size: 14px;
+        background-color: white;
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+        background-position: right 12px center;
+        background-repeat: no-repeat;
+        background-size: 16px;
+        appearance: none;
+      }
+
+      .modal-footer {
+        padding: 20px 30px;
+        background: #f8f9fa;
+        display: flex;
+        gap: 15px;
+        justify-content: flex-end;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        color: white;
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+      }
+
+      .btn-secondary {
+        background: #6c757d;
+        border: none;
+        color: white;
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      .btn-secondary:hover {
+        background: #5a6268;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="main-header">
+      <div class="logo">
+        <img src="./image/avatar/logoTlu.png" alt="Logo" />
+      </div>
+
+      <input
+        type="text"
+        placeholder="🔍 Bạn tìm gì hôm nay"
+        class="search-bar"
+      />
+
+      <div class="auth-cart">
+        <span class="cart-icon fs-4">🛒</span>
+        <div class="user-menu">
+          <div class="user-info">
+            <img
+              src="./image/avatar/admin.png"
+              alt="User Icon"
+              class="user-icon"
+            />
+            <span class="user-name">I'm Admin1</span>
+          </div>
+          <div class="dropdown">
+            <a href="#">Trang quản trị</a>
+            <a href="#">Thông tin cá nhân</a>
+            <a href="#">Lịch sử mua hàng</a>
+            <a href="./index.html">Đăng xuất</a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Breadcrumb -->
+    <p class="px-5 pt-2">
+      <a href="index.html">🏠 Trang Chủ</a> / <span>Đặt sách</span>
+    </p>
+
+    <!-- Main content -->
+    <main class="main-content" style="width: 100%">
+      <!-- Giao diện Đặt hàng -->
+      <div class="container py-4">
+        <!-- Tiến trình đặt hàng -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <div class="d-flex align-items-center">
+            <div
+              class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center step-circle me-2"
+              style="width: 30px; height: 30px"
+            >
+              1
+            </div>
+            <span>Đơn hàng</span>
+          </div>
+          <hr class="flex-grow-1 mx-2" />
+          <div class="d-flex align-items-center">
+            <div
+              class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center step-circle me-2"
+              style="width: 30px; height: 30px"
+            >
+              2
+            </div>
+            <span class="text-secondary">Đặt hàng</span>
+          </div>
+          <hr class="flex-grow-1 mx-2" />
+          <div class="d-flex align-items-center">
+            <div
+              class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center step-circle me-2"
+              style="width: 30px; height: 30px"
+            >
+              3
+            </div>
+            <span class="text-secondary">Thanh toán</span>
+          </div>
+        </div>
+
+        <div class="row g-4">
+          <!-- Sản phẩm -->
+          <!-- Thông tin sản phẩm -->
+          <div class="col-md-8">
+            <div
+              class="bg-white p-3 card-shadow mb-3 d-flex align-items-center justify-content-between"
+            >
+              <div class="d-flex align-items-center">
+                <img
+                  src="./image/book/sucmanhngontu.jpg"
+                  alt="Sách"
+                  class="me-3"
+                  style="width: 80px; height: auto"
+                />
+                <div class="d-flex align-items-center gap-3">
+                  <h6 class="mb-0">Sức Mạnh Của Ngôn Từ</h6>
+                  <div class="text-muted">50.000 đ</div>
+                </div>
+              </div>
+              <div class="d-flex align-items-center gap-3">
+                <input
+                  type="number"
+                  class="form-control"
+                  value="2"
+                  style="width: 60px"
+                />
+                <div class="fw-bold">Tổng: 100.000 đ</div>
+                <button class="btn btn-link text-danger fs-5">🗑</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Thông tin đặt hàng -->
+          <div class="col-md-4">
+            <div class="bg-white p-4 card-shadow">
+              <form>
+                <div class="mb-3">
+                  <label for="receiverName"
+                    ><span style="color: red">*</span> Tên người nhận</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    value="I'm Admin1"
+                    required
+                  />
+                </div>
+
+                <div class="mb-3">
+                  <label for="receiverName"
+                    ><span style="color: red">*</span> Số điện thoại</label
+                  >
+                  <input
+                    type="tel"
+                    class="form-control"
+                    value="123456789"
+                    required
+                  />
+                </div>
+
+                <div class="mb-3">
+                  <label for="receiverName"
+                    ><span style="color: red">*</span> Địa chỉ</label
+                  >
+                  <textarea
+                    class="form-control"
+                    rows="3"
+                    placeholder="Địa chỉ..."
+                  ></textarea>
+                </div>
+
+                <div class="mb-3">
+                  <div class="form-label">Hình thức thanh toán</div>
+                  <div>
+                    <input type="radio" name="payment" id="cod" value="cod" />
+                    <label for="cod" class="me-3"
+                      >Thanh toán khi nhận hàng</label
+                    >
+                    <input type="radio" name="payment" id="bank" value="bank" />
+                    <label for="bank">Banking</label>
+                  </div>
+                </div>
+
+                <hr />
+                <div class="d-flex justify-content-between mb-3">
+                  <strong>Tổng tiền</strong>
+                  <strong class="text-danger fs-5">100.000 đ</strong>
+                </div>
+
+                <button class="btn btn-danger w-100"><a href="./DatHangThanhCong.html" style="text-decoration: none;color: white;">Đặt Hàng (1)</a></button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+      <div class="footer-container px-5">
+        <div class="footer-section">
+          <h4>Về chúng tôi</h4>
+          <p>
+            📘 Nhóm 5 là nơi chia sẻ sách hay, kiến thức và cảm hứng đọc sách
+            cho mọi người.
+          </p>
+        </div>
+        <div class="footer-section">
+          <h4>Liên hệ</h4>
+          <p>📍 Địa chỉ: 123 Đường Sách, TP. Hồ Chí Minh</p>
+          <p>📞 SĐT: 0123 456 789</p>
+          <p>✉️ Email: support@nhom5.vn</p>
+        </div>
+        <div class="footer-section">
+          <h4>Theo dõi chúng tôi</h4>
+          <p>🌐 Facebook | Instagram | Twitter</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        © 2025 Nhóm 5. Tất cả các quyền được bảo lưu.
+      </div>
+    </footer>
+
+    <!-- Alert thông báo -->
+    <div
+      id="paymentAlert"
+      class="alert alert-info payment-alert"
+    >
+      <span class="me-2">✅</span>
+      <span>Bạn đã chọn thanh toán khi nhận hàng!</span>
+    </div>
+
+    <!-- Banking Modal -->
+    <div id="bankingModal" class="banking-modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          Thanh Toán
+        </div>
+        <div class="modal-body">
+          <div class="qr-section">
+            <div class="qr-placeholder">
+              📱
+            </div>
+            <div class="qr-text">Ảnh QR</div>
+          </div>
+          <div class="form-section">
+            <div class="form-group">
+              <label class="form-label">Ngân Hàng:</label>
+              <select class="form-select">
+                <option value="">Chọn ngân hàng</option>
+                <option value="vietcombank">Vietcombank</option>
+                <option value="techcombank">Techcombank</option>
+                <option value="bidv">BIDV</option>
+                <option value="vietinbank">VietinBank</option>
+                <option value="mbbank">MB Bank</option>
+                <option value="acb">ACB</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Số Tài khoản:</label>
+              <input type="text" class="form-control" placeholder="Nhập số tài khoản">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Tên chủ thẻ:</label>
+              <input type="text" class="form-control" placeholder="Nhập tên chủ thẻ">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn-primary">Thanh Toán</button>
+          <button class="btn-secondary" onclick="closeBankingModal()">Thoát</button>
+          
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const codRadio = document.getElementById("cod");
+        const bankRadio = document.getElementById("bank");
+        const alertBox = document.getElementById("paymentAlert");
+        const bankingModal = document.getElementById("bankingModal");
+
+        const showAlert = () => {
+          alertBox.classList.add("show");
+          setTimeout(() => {
+            alertBox.classList.remove("show");
+          }, 3000);
+        };
+
+        const hideAlert = () => {
+          alertBox.classList.remove("show");
+        };
+
+        const showBankingModal = () => {
+          bankingModal.classList.add("show");
+        };
+
+        const hideBankingModal = () => {
+          bankingModal.classList.remove("show");
+        };
+
+        // Chỉ hiển thị thông báo khi user thực sự click chọn COD
+        codRadio.addEventListener("click", function() {
+          if (this.checked) {
+            hideAlert();
+            hideBankingModal();
+            showAlert();
+          }
+        });
+
+        // Hiển thị modal Banking khi chọn Banking
+        bankRadio.addEventListener("click", function() {
+          if (this.checked) {
+            hideAlert();
+            showBankingModal();
+          }
+        });
+
+        // Đóng modal khi click outside
+        bankingModal.addEventListener("click", function(e) {
+          if (e.target === bankingModal) {
+            hideBankingModal();
+          }
+        });
+
+        // Đảm bảo alert ẩn khi trang load
+        hideAlert();
+        hideBankingModal();
+
+        // Global function để đóng modal
+        window.closeBankingModal = hideBankingModal;
+      });
+    </script>
+  </body>
+</html>
