@@ -5,6 +5,126 @@
     <title>Trang Chủ</title>
     <link rel="stylesheet" href="index.css" />
     <style>
+      input.error {
+        border: 1px solid red;
+        background-color: #fff0f0;
+      }
+
+      .error-message {
+        color: red;
+        font-size: 13px;
+        margin-bottom: 5px;
+      }
+
+      .success-message {
+        color: green;
+        font-size: 14px;
+        margin-top: 10px;
+      }
+
+      .right-panel label {
+        display: block;
+        font-weight: bold;
+        margin-top: 12px;
+        margin-bottom: 5px;
+      }
+
+      .right-panel input {
+        width: 100%;
+        padding: 8px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+      }
+
+      .form-buttons {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 15px;
+      }
+
+      .btn-update,
+      .btn-secondary {
+        padding: 8px 16px;
+        border: none;
+        border-radius: 4px;
+        color: white;
+        cursor: pointer;
+      }
+
+      .btn-update {
+        background-color: #007bff;
+      }
+
+      .btn-secondary {
+        background-color: #6c757d;
+      }
+      .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.3);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 999;
+      }
+
+      .modal-content {
+        background-color: white;
+        border-radius: 10px;
+        padding: 20px 30px;
+        text-align: center;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        width: 360px;
+        position: relative;
+      }
+
+      .modal-header {
+        display: flex;
+        justify-content: space-between;
+        font-weight: bold;
+        font-size: 16px;
+        margin-bottom: 10px;
+      }
+
+      .modal-close {
+        cursor: pointer;
+        font-size: 20px;
+        color: #888;
+      }
+
+      .modal-body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .modal-icon {
+        width: 50px;
+        height: 50px;
+        margin-bottom: 10px;
+      }
+
+      .modal-text {
+        font-weight: bold;
+        font-size: 16px;
+      }
+
+      .modal-footer {
+        margin-top: 15px;
+      }
+
+      .modal-footer button {
+        padding: 6px 18px;
+        background-color: #e8f5e9;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
       /* Popup và Tabs */
       .popup-overlay {
         position: fixed;
@@ -138,7 +258,7 @@
       <div class="auth-cart">
         <span class="cart-icon">🛒</span>
         <div class="user-menu">
-          <div class="user-info" >
+          <div class="user-info">
             <img
               src="./image/avatar/admin.png"
               alt="User Icon"
@@ -242,7 +362,7 @@
 
           <!-- Thêm các thẻ product-card khác như bạn đã có -->
           <!-- ... -->
-           <div class="product-card">
+          <div class="product-card">
             <img
               src="./image/book/15-afa213ab31cefd06d49b977a2f4ab594.jpg"
               alt="Làm Dâu Nhà Sói"
@@ -351,7 +471,7 @@
     <div id="account-popup" class="popup-overlay" style="display: none">
       <div class="popup-content">
         <span class="close-btn" onclick="closePopup()">×</span>
-        <h2>Quản lý tài khoản</h2>
+        <h2>Quản lý thông tin cá nhân</h2>
 
         <div class="tab-header">
           <span class="tab active" onclick="switchTab('info')"
@@ -362,7 +482,7 @@
 
         <div class="tab-content" id="tab-info" style="display: block">
           <div class="account-info-grid">
-            <!-- Cột trái: Avatar -->
+            <!-- Avatar -->
             <div class="left-panel">
               <img
                 src="./image/avatar/admin.png"
@@ -375,30 +495,65 @@
               </label>
             </div>
 
-            <!-- Cột phải: Form thông tin -->
+            <!-- Form -->
             <div class="right-panel">
-              <form>
+              <form id="info-form">
                 <label>Email</label>
                 <input type="email" value="admin@gmail.com" disabled />
 
                 <label><span style="color: red">*</span> Tên hiển thị</label>
-                <input type="text" value="I'm Admin1" />
+                <input type="text" id="display-name" value="I'm Admin1" />
+                <div id="name-error" class="error-message"></div>
 
                 <label><span style="color: red">*</span> Số điện thoại</label>
-                <input type="text" value="123456789" />
+                <input type="text" id="phone" value="123456789" />
+                <div id="phone-error" class="error-message"></div>
 
-                <div class="form-buttons" style="margin-left: auto;">
-                  <button type="button" class="btn-update" style="margin-right: 10px;">Cập nhật</button>
+                <div class="form-buttons">
+                  <button
+                    type="button"
+                    class="btn-update"
+                    onclick="validateInfoForm()"
+                    style="margin-right: 10px"
+                  >
+                    Cập nhật
+                  </button>
                   <button
                     type="button"
                     class="btn-secondary"
                     onclick="closePopup()"
-                    style="background-color: #6C757D;"
+                    style="background-color: #6c757d"
                   >
                     Thoát
                   </button>
                 </div>
+
+                <div id="info-success" class="success-message"></div>
               </form>
+            </div>
+            <!-- ✅ Modal Thông báo Thành công -->
+            <div id="success-modal" class="modal-overlay">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <span class="modal-title">Thông báo</span>
+                  <span class="modal-close" onclick="closeSuccessModal()"
+                    >×</span
+                  >
+                </div>
+                <div class="modal-body">
+                  <img
+                    src="https://cdn-icons-png.flaticon.com/512/190/190411.png"
+                    alt="Success"
+                    class="modal-icon"
+                  />
+                  <p class="modal-text">
+                    Cập nhật thông tin cá nhân thành công!
+                  </p>
+                </div>
+                <div class="modal-footer">
+                  <button onclick="closeSuccessModal()">Ok</button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -419,29 +574,29 @@
 
     <!-- Footer -->
     <footer class="main-footer">
-      <div class="footer-container">
-        <div class="footer-section">
-          <h4>Về chúng tôi</h4>
-          <p>
-            📘 Nhóm 5 là nơi chia sẻ sách hay, kiến thức và cảm hứng đọc sách
-            cho mọi người.
-          </p>
-        </div>
-        <div class="footer-section">
-          <h4>Liên hệ</h4>
-          <p>📍 Địa chỉ: 123 Đường Sách, TP. Hồ Chí Minh</p>
-          <p>📞 SĐT: 0123 456 789</p>
-          <p>✉️ Email: support@nhom5.vn</p>
-        </div>
-        <div class="footer-section">
-          <h4>Theo dõi chúng tôi</h4>
-          <p>🌐 Facebook | Instagram | Twitter</p>
-        </div>
+    <div class="footer-container">
+      <div class="footer-section">
+        <h4>Về chúng tôi</h4>
+        <p>
+          📘 Nhóm 6 là nơi chia sẻ sách hay, kiến thức và cảm hứng đọc sách cho
+          mọi người.
+        </p>
       </div>
-      <div class="footer-bottom">
-        © 2025 Nhóm 5. Tất cả các quyền được bảo lưu.
+      <div class="footer-section">
+        <h4>Liên hệ</h4>
+        <p>📍 Địa chỉ: 175 Tây Sơn, Hà Nội</p>
+        <p>📞 SĐT: 0123 456 789</p>
+        <p>✉️ Email: support@nhom6.vn</p>
       </div>
-    </footer>
+      <div class="footer-section">
+        <h4>Theo dõi chúng tôi</h4>
+        <p>🌐 Facebook | Instagram | Twitter</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      © 2025 Nhóm 5. Tất cả các quyền được bảo lưu.
+    </div>
+  </footer>
 
     <!-- Script -->
     <script>
@@ -465,6 +620,49 @@
         document
           .querySelector(`.tab[onclick="switchTab('${tab}')"]`)
           .classList.add("active");
+      }
+
+      function validateInfoForm() {
+        const nameInput = document.getElementById("display-name");
+        const phoneInput = document.getElementById("phone");
+        const name = nameInput.value.trim();
+        const phone = phoneInput.value.trim();
+        const nameError = document.getElementById("name-error");
+        const phoneError = document.getElementById("phone-error");
+        const successMessage = document.getElementById("info-success");
+
+        // Reset trạng thái
+        nameError.textContent = "";
+        phoneError.textContent = "";
+        successMessage.textContent = "";
+
+        nameInput.classList.remove("error");
+        phoneInput.classList.remove("error");
+
+        let isValid = true;
+
+        if (name === "") {
+          nameError.textContent = "Tên hiển thị không được để trống.";
+          nameInput.classList.add("error");
+          isValid = false;
+        }
+
+        if (phone === "") {
+          phoneError.textContent = "Số điện thoại không được để trống.";
+          phoneInput.classList.add("error");
+          isValid = false;
+        } else if (!/^\d{9,11}$/.test(phone)) {
+          phoneError.textContent = "Số điện thoại không hợp lệ (9–11 chữ số).";
+          phoneInput.classList.add("error");
+          isValid = false;
+        }
+
+        if (isValid) {
+          document.getElementById("success-modal").style.display = "flex";
+        }
+        function closeSuccessModal() {
+          document.getElementById("success-modal").style.display = "none";
+        }
       }
     </script>
   </body>

@@ -9,6 +9,31 @@
       rel="stylesheet"
     />
     <style>
+      .error-message {
+        color: red;
+        font-size: 13px;
+        margin-top: 2px;
+      }
+
+      .form-control.invalid,
+      .form-select.invalid {
+        border: 1px solid red;
+      }
+
+      .modal-header {
+        display: flex;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 18px;
+      }
+      .form-control.error {
+        border: 1.5px solid red !important;
+      }
+
+      .error-message {
+        font-size: 0.9rem;
+        color: red;
+      }
       html,
       body {
         height: 100%;
@@ -197,7 +222,7 @@
       }
 
       .modal-header {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: #dc3545;
         color: white;
         padding: 20px;
         text-align: center;
@@ -292,7 +317,7 @@
       }
 
       .btn-primary {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: #dc3545;
         border: none;
         color: white;
         padding: 12px 24px;
@@ -300,6 +325,7 @@
         font-weight: 600;
         cursor: pointer;
         transition: transform 0.2s ease;
+        text-align: center;
       }
 
       .btn-primary:hover {
@@ -359,7 +385,7 @@
 
     <!-- Breadcrumb -->
     <p class="px-5 pt-2">
-      <a href="index.html">🏠 Trang Chủ</a> / <span>Đặt sách</span>
+      <a href="index.html">🏠 Trang Chủ</a> / <span>Đặt hàng</span>
     </p>
 
     <!-- Main content -->
@@ -432,9 +458,10 @@
           </div>
 
           <!-- Thông tin đặt hàng -->
+          <!-- ĐẶT HÀNG FORM -->
           <div class="col-md-4">
             <div class="bg-white p-4 card-shadow">
-              <form>
+              <form id="order-form" onsubmit="return validateOrderForm()">
                 <div class="mb-3">
                   <label for="receiverName"
                     ><span style="color: red">*</span> Tên người nhận</label
@@ -442,32 +469,45 @@
                   <input
                     type="text"
                     class="form-control"
-                    value="I'm Admin1"
-                    required
+                    id="receiverName"
+                    placeholder="Nhập tên người nhận"
                   />
+                  <div
+                    class="text-danger mt-1 error-message"
+                    id="name-error"
+                  ></div>
                 </div>
 
                 <div class="mb-3">
-                  <label for="receiverName"
+                  <label for="phone"
                     ><span style="color: red">*</span> Số điện thoại</label
                   >
                   <input
                     type="tel"
                     class="form-control"
-                    value="123456789"
-                    required
+                    id="phone"
+                    placeholder="Nhập số điện thoại"
                   />
+                  <div
+                    class="text-danger mt-1 error-message"
+                    id="phone-error"
+                  ></div>
                 </div>
 
                 <div class="mb-3">
-                  <label for="receiverName"
+                  <label for="address"
                     ><span style="color: red">*</span> Địa chỉ</label
                   >
                   <textarea
                     class="form-control"
+                    id="address"
                     rows="3"
                     placeholder="Địa chỉ..."
                   ></textarea>
+                  <div
+                    class="text-danger mt-1 error-message"
+                    id="address-error"
+                  ></div>
                 </div>
 
                 <div class="mb-3">
@@ -480,15 +520,21 @@
                     <input type="radio" name="payment" id="bank" value="bank" />
                     <label for="bank">Banking</label>
                   </div>
+                  <div
+                    class="text-danger mt-1 error-message"
+                    id="payment-error"
+                  ></div>
                 </div>
 
                 <hr />
                 <div class="d-flex justify-content-between mb-3">
                   <strong>Tổng tiền</strong>
-                  <strong class="text-danger fs-5">100.000 đ</strong>
+                  <strong class="text-danger fs-5">290.123 đ</strong>
                 </div>
 
-                <button class="btn btn-danger w-100"><a href="./DatHangThanhCong.html" style="text-decoration: none;color: white;">Đặt Hàng (1)</a></button>
+                <button type="submit" class="btn btn-danger w-100">
+                  Đặt Hàng
+                </button>
               </form>
             </div>
           </div>
@@ -498,19 +544,19 @@
 
     <!-- Footer -->
     <footer class="main-footer">
-      <div class="footer-container px-5">
+      <div class="footer-container">
         <div class="footer-section">
           <h4>Về chúng tôi</h4>
           <p>
-            📘 Nhóm 5 là nơi chia sẻ sách hay, kiến thức và cảm hứng đọc sách
+            📘 Nhóm 6 là nơi chia sẻ sách hay, kiến thức và cảm hứng đọc sách
             cho mọi người.
           </p>
         </div>
         <div class="footer-section">
           <h4>Liên hệ</h4>
-          <p>📍 Địa chỉ: 123 Đường Sách, TP. Hồ Chí Minh</p>
+          <p>📍 Địa chỉ: 175 Tây Sơn, Hà Nội</p>
           <p>📞 SĐT: 0123 456 789</p>
-          <p>✉️ Email: support@nhom5.vn</p>
+          <p>✉️ Email: support@nhom6.vn</p>
         </div>
         <div class="footer-section">
           <h4>Theo dõi chúng tôi</h4>
@@ -523,31 +569,36 @@
     </footer>
 
     <!-- Alert thông báo -->
-    <div
-      id="paymentAlert"
-      class="alert alert-info payment-alert"
-    >
+    <div id="paymentAlert" class="alert alert-info payment-alert">
       <span class="me-2">✅</span>
       <span>Bạn đã chọn thanh toán khi nhận hàng!</span>
     </div>
 
     <!-- Banking Modal -->
+    <!-- Banking Modal -->
     <div id="bankingModal" class="banking-modal">
       <div class="modal-content">
-        <div class="modal-header">
+        <div
+          class="modal-header"
+          style="
+            display: flex;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 18px;
+          "
+        >
           Thanh Toán
         </div>
+
         <div class="modal-body">
           <div class="qr-section">
-            <div class="qr-placeholder">
-              📱
-            </div>
+            <img src="./image/book/qr.png" alt="QR Code" class="qr-placeholder" />
             <div class="qr-text">Ảnh QR</div>
           </div>
           <div class="form-section">
             <div class="form-group">
               <label class="form-label">Ngân Hàng:</label>
-              <select class="form-select">
+              <select class="form-select" id="bank">
                 <option value="">Chọn ngân hàng</option>
                 <option value="vietcombank">Vietcombank</option>
                 <option value="techcombank">Techcombank</option>
@@ -556,82 +607,200 @@
                 <option value="mbbank">MB Bank</option>
                 <option value="acb">ACB</option>
               </select>
+              <div class="error-message" id="bank-error"></div>
             </div>
+
             <div class="form-group">
               <label class="form-label">Số Tài khoản:</label>
-              <input type="text" class="form-control" placeholder="Nhập số tài khoản">
+              <input
+                type="text"
+                id="account-number"
+                class="form-control"
+                placeholder="Nhập số tài khoản"
+              />
+              <div class="error-message" id="account-error"></div>
             </div>
+
             <div class="form-group">
               <label class="form-label">Tên chủ thẻ:</label>
-              <input type="text" class="form-control" placeholder="Nhập tên chủ thẻ">
+              <input
+                type="text"
+                id="card-owner"
+                class="form-control"
+                placeholder="Nhập tên chủ thẻ"
+              />
+              <div class="error-message" id="owner-error"></div>
             </div>
           </div>
         </div>
+
         <div class="modal-footer">
-          <button class="btn-primary">Thanh Toán</button>
-          <button class="btn-secondary" onclick="closeBankingModal()">Thoát</button>
-          
+          <button class="btn-primary" onclick="validateBanking()">
+            Thanh Toán
+          </button>
+          <button class="btn-secondary" onclick="closeBankingModal()">
+            Thoát
+          </button>
         </div>
       </div>
     </div>
 
     <script>
-      document.addEventListener('DOMContentLoaded', function () {
-        const codRadio = document.getElementById("cod");
-        const bankRadio = document.getElementById("bank");
-        const alertBox = document.getElementById("paymentAlert");
-        const bankingModal = document.getElementById("bankingModal");
+  document.addEventListener("DOMContentLoaded", function () {
+    const codRadio = document.getElementById("cod");
+    const bankRadio = document.getElementById("bank");
+    const alertBox = document.getElementById("paymentAlert");
+    const bankingModal = document.getElementById("bankingModal");
 
-        const showAlert = () => {
-          alertBox.classList.add("show");
-          setTimeout(() => {
-            alertBox.classList.remove("show");
-          }, 3000);
-        };
+    const showAlert = () => {
+      alertBox.classList.add("show");
+      setTimeout(() => {
+        alertBox.classList.remove("show");
+      }, 3000);
+    };
 
-        const hideAlert = () => {
-          alertBox.classList.remove("show");
-        };
+    const hideAlert = () => {
+      alertBox.classList.remove("show");
+    };
 
-        const showBankingModal = () => {
-          bankingModal.classList.add("show");
-        };
+    const showBankingModal = () => {
+      bankingModal.classList.add("show");
+    };
 
-        const hideBankingModal = () => {
-          bankingModal.classList.remove("show");
-        };
+    const hideBankingModal = () => {
+      bankingModal.classList.remove("show");
+    };
 
-        // Chỉ hiển thị thông báo khi user thực sự click chọn COD
-        codRadio.addEventListener("click", function() {
-          if (this.checked) {
-            hideAlert();
-            hideBankingModal();
-            showAlert();
-          }
-        });
-
-        // Hiển thị modal Banking khi chọn Banking
-        bankRadio.addEventListener("click", function() {
-          if (this.checked) {
-            hideAlert();
-            showBankingModal();
-          }
-        });
-
-        // Đóng modal khi click outside
-        bankingModal.addEventListener("click", function(e) {
-          if (e.target === bankingModal) {
-            hideBankingModal();
-          }
-        });
-
-        // Đảm bảo alert ẩn khi trang load
+    codRadio.addEventListener("click", function () {
+      if (this.checked) {
         hideAlert();
         hideBankingModal();
+        showAlert();
+      }
+    });
 
-        // Global function để đóng modal
-        window.closeBankingModal = hideBankingModal;
-      });
-    </script>
+    bankRadio.addEventListener("click", function () {
+      if (this.checked) {
+        hideAlert();
+        showBankingModal();
+      }
+    });
+
+    bankingModal.addEventListener("click", function (e) {
+      if (e.target === bankingModal) {
+        hideBankingModal();
+      }
+    });
+
+    hideAlert();
+    hideBankingModal();
+
+    window.closeBankingModal = hideBankingModal;
+  });
+
+  function validateOrderForm() {
+    let isValid = true;
+
+    const nameInput = document.getElementById("receiverName");
+    const phoneInput = document.getElementById("phone");
+    const addressInput = document.getElementById("address");
+    const paymentInputs = document.getElementsByName("payment");
+
+    const nameError = document.getElementById("name-error");
+    const phoneError = document.getElementById("phone-error");
+    const addressError = document.getElementById("address-error");
+    const paymentError = document.getElementById("payment-error");
+
+    [nameInput, phoneInput, addressInput].forEach((input) =>
+      input.classList.remove("error")
+    );
+    nameError.textContent = "";
+    phoneError.textContent = "";
+    addressError.textContent = "";
+    paymentError.textContent = "";
+
+    if (nameInput.value.trim() === "") {
+      nameInput.classList.add("error");
+      nameError.textContent = "Vui lòng nhập tên người nhận!";
+      isValid = false;
+    }
+
+    if (phoneInput.value.trim() === "") {
+      phoneInput.classList.add("error");
+      phoneError.textContent = "Vui lòng nhập số điện thoại!";
+      isValid = false;
+    } else if (!/^\d{9,11}$/.test(phoneInput.value.trim())) {
+      phoneInput.classList.add("error");
+      phoneError.textContent = "Số điện thoại không hợp lệ!";
+      isValid = false;
+    }
+
+    if (addressInput.value.trim() === "") {
+      addressInput.classList.add("error");
+      addressError.textContent = "Vui lòng nhập địa chỉ!";
+      isValid = false;
+    }
+
+    let selectedPayment = false;
+    for (let i = 0; i < paymentInputs.length; i++) {
+      if (paymentInputs[i].checked) {
+        selectedPayment = true;
+        break;
+      }
+    }
+    if (!selectedPayment) {
+      paymentError.textContent = "Vui lòng chọn hình thức thanh toán!";
+      isValid = false;
+    }
+
+    return isValid;
+  }
+
+  // ✅ Đặt ngoài để nút Thanh Toán gọi được
+  function validateBanking() {
+    let isValid = true;
+
+    const bank = document.getElementById("bank");
+    const accountNumber = document.getElementById("account-number");
+    const cardOwner = document.getElementById("card-owner");
+
+    document.getElementById("bank-error").innerText = "";
+    document.getElementById("account-error").innerText = "";
+    document.getElementById("owner-error").innerText = "";
+
+    bank.classList.remove("invalid");
+    accountNumber.classList.remove("invalid");
+    cardOwner.classList.remove("invalid");
+
+    if (bank.value === "") {
+      isValid = false;
+      bank.classList.add("invalid");
+      document.getElementById("bank-error").innerText = "Vui lòng chọn ngân hàng!";
+    }
+
+    if (accountNumber.value.trim() === "") {
+      isValid = false;
+      accountNumber.classList.add("invalid");
+      document.getElementById("account-error").innerText = "Vui lòng nhập số tài khoản!";
+    }
+
+    if (cardOwner.value.trim() === "") {
+      isValid = false;
+      cardOwner.classList.add("invalid");
+      document.getElementById("owner-error").innerText = "Vui lòng nhập tên chủ thẻ!";
+    }
+
+    if (isValid) {
+      window.location.href = "DatHangThanhCong.html";
+
+      //closeBankingModal();
+    }
+  }
+
+  function closeBankingModal() {
+    document.getElementById("bankingModal").classList.remove("show");
+  }
+</script>
+
   </body>
 </html>
